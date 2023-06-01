@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  order-service:
+    image: 'order-service:latest'
+    build: ./order-service/.
+    depends_on:
+      - order-service-db
+      - kafka
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://order-service-db:5432/orders
+      - POSTGRES_USERNAME=admin
+      - POSTGRES_PASSWORD=admin
+      - KAFKA_SERVERS=kafka:9092
+    ports:
+      - "8080:8080"
+
+  order-service-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: orders
+    ports:
+      - "5432:5432"
+
+  item-service:
+    image: 'item-service:latest'
+    build: ./item-service/.
+    depends_on:
+      - item-service-db
+      - kafka
+    environment:
+      - POSTGRES_URL=r2dbc:postgresql://item-service-db:5432/items
+      - POSTGRES_JDBC_URL=jdbc:postgresql://item-service-db:5432/items
+      - POSTGRES_USERNAME=admin
+      - POSTGRES_PASSWORD=admin
+      - KAFKA_SERVERS=kafka:9092
+    ports:
+      - "8081:8080"
+
+  item-service-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: items
+    ports:
+      - "5433:5432"
+
+  auth-service:
+    image: 'auth-service:latest'
+    build: ./auth-service/.
+    depends_on:
+      - auth-service-db
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://auth-service-db:5432/auth
+      - POSTGRES_USERNAME=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "8082:8080"
+
+  auth-service-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: auth
+    ports:
+      - "5434:5432"
+
+  payment-service:
+    image: 'payment-service:latest'
+    build: ./payment-service/.
+    depends_on:
+      - payment-service-db
+      - kafka
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://payment-service-db:5432/payment
+      - POSTGRES_USERNAME=admin
+      - POSTGRES_PASSWORD=admin
+      - KAFKA_SERVERS=kafka:9092
+    ports:
+      - "8083:8080"
+
+  payment-service-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: payment
+    ports:
+      - "5435:5432"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      LISTENERS: PLAINTEXT://0.0.0.0:9092

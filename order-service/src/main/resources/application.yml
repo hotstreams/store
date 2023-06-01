@@ -1,0 +1,23 @@
+spring.application.name: order-service
+
+kafka:
+    topic: orders
+    bootstrapServers: ${KAFKA_SERVERS}
+    producerClientId: orders-producer
+    consumerClientId: orders-consumer
+    consumerGroup: orders-group
+
+spring.datasource:
+        url: ${POSTGRES_URL}
+        username: ${POSTGRES_USERNAME}
+        password: ${POSTGRES_PASSWORD}
+
+logging.level:
+        root: debug
+
+auth.jwt:
+    refresh.duration: 1048576
+    expiration: 1048576
+    secret: 6873428E30E5A65D1928D76FF14F5AF69A8AF2024439B65ABE97953D69EC5999
+    header: Authorization
+    header.prefix: Bearer

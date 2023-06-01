@@ -1,0 +1,7 @@
+spring.jpa.database: HSQL
+
+auth.jwt.refresh.duration: 1048576
+auth.jwt.header: Authorization
+auth.jwt.header.prefix: Bearer
+auth.jwt.secret: someJwtSecretSigningKeySomeJwtSecretSigningKey
+auth.jwt.expiration: 1048576

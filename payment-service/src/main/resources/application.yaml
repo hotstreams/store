@@ -1,0 +1,17 @@
+spring:
+  application.name: payment-service
+
+  jpa.database: postgresql
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+
+kafka:
+  topic: orders
+  bootstrapServers: ${KAFKA_SERVERS}
+  producerClientId: payments-producer
+
+logging:
+  level:
+    root: debug
