@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "hotstreams.orderservice.service",
     "hotstreams.orderservice.security"
 })
-public class OrderControllerTests {
+public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

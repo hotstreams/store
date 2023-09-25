@@ -1,4 +1,4 @@
-package hotstreams.authservice;
+package hotstreams.authservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hotstreams.authservice.controller.AuthController;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
-public class AuthControllerTests {
+public class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

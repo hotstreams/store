@@ -41,7 +41,6 @@ public class PaymentMessageProducer {
                 .build();
 
             log.info("sending " + message);
-
             kafkaTemplate.send(buildRecord(message));
             outboxRepository.deleteById(entity.getId());
         });
