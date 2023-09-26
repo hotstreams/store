@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   order-service:
-    image: 'order-service:latest'
-    build: ./order-service/.
+    image: 'eddiespinola/order-service:latest'
     depends_on:
       - order-service-db
       - kafka
@@ -26,8 +25,7 @@ services:
       - "5432:5432"
 
   item-service:
-    image: 'item-service:latest'
-    build: ./item-service/.
+    image: 'eddiespinola/item-service:latest'
     depends_on:
       - item-service-db
       - kafka
@@ -51,8 +49,7 @@ services:
       - "5433:5432"
 
   auth-service:
-    image: 'auth-service:latest'
-    build: ./auth-service/.
+    image: 'eddiespinola/auth-service:latest'
     depends_on:
       - auth-service-db
     environment:
@@ -73,8 +70,7 @@ services:
       - "5434:5432"
 
   payment-service:
-    image: 'payment-service:latest'
-    build: ./payment-service/.
+    image: 'eddiespinola/payment-service:latest'
     depends_on:
       - payment-service-db
       - kafka
