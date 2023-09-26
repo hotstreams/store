@@ -21,7 +21,7 @@ public class AuthController {
     @PostMapping(value = "/register")
     public ResponseEntity<ApiResponse> registerNewUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         final User user = authService.registerUser(registrationRequest);
-        return ResponseEntity.ok(new ApiResponse("success", "User registered " + user.getUsername() + "!"));
+        return ResponseEntity.ok(new ApiResponse("success", "User registered " + user.getUsername()));
     }
 
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
